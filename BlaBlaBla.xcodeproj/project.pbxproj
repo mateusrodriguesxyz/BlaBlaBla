@@ -17,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DC0A9FE62B0A6C1C00BB8DBF /* BlaBlaBla.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlaBlaBla.entitlements; sourceTree = "<group>"; };
 		DC7E16B72B04EC2F0096EAE0 /* BlaBlaBla.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlaBlaBla.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC7E16BA2B04EC2F0096EAE0 /* BlaBlaBlaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlaBlaBlaApp.swift; sourceTree = "<group>"; };
 		DC7E16BC2B04EC2F0096EAE0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -57,6 +58,7 @@
 		DC7E16B92B04EC2F0096EAE0 /* BlaBlaBla */ = {
 			isa = PBXGroup;
 			children = (
+				DC0A9FE62B0A6C1C00BB8DBF /* BlaBlaBla.entitlements */,
 				DC7E16BA2B04EC2F0096EAE0 /* BlaBlaBlaApp.swift */,
 				DC7E16BC2B04EC2F0096EAE0 /* ContentView.swift */,
 				DCF5AFCA2B09496A00335D71 /* SwiftUIView.swift */,
@@ -281,6 +283,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BlaBlaBla/BlaBlaBla.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BlaBlaBla/Preview Content\"";
@@ -301,7 +304,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = mateus.rodrigues.BlaBlaBla;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -313,6 +317,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BlaBlaBla/BlaBlaBla.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BlaBlaBla/Preview Content\"";
@@ -333,7 +338,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = mateus.rodrigues.BlaBlaBla;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

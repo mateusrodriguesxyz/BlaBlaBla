@@ -59,25 +59,41 @@ struct CharacterView: View {
                 Image(uiImage: avatar)
                     .resizable()
                     .scaledToFit()
+                    .onTapGesture {
+                        Task.detached {
+                            await loadAvatar()
+                        }
+                    }
             } else {
                 if isLoadingAvatar {
                     ProgressView()
                         .frame(width: 50, height: 50)
-                        .onTapGesture {
-                            Task {
-                                await CharacterImageLoader.shared.cancel(for: character.id)
-                            }
-                        }
+//                        .onTapGesture {
+//                            Task {
+//                                await CharacterImageLoader.shared.cancel(for: character.id)
+//                            }
+//                        }
                 }
             }
         }
         .frame(height: 50)
         .task {
-            isLoadingAvatar = true
-            avatar = await CharacterImageLoader.shared.value(for: character.id, caching: .disabled)
-            isLoadingAvatar = false
+            await loadAvatar()
         }
     }
+    
+    func loadAvatar() async {
+        isLoadingAvatar = true
+        
+        avatar = await CharacterImageLoader.shared.value(
+            for: character.id,
+            caching: .enabled,
+            modificationDate: nil
+        )
+        
+        isLoadingAvatar = false
+    }
+    
 }
 
 #Preview {

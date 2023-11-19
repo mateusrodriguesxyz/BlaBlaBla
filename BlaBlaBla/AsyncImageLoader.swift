@@ -10,31 +10,13 @@ import Foundation
 
 public enum AsyncLoaderState<Value> {
     case loading(Task<Value?, Never>)
-    case loaded(Value)
+    case loaded(Value, date: Date)
 }
 
 public enum AsyncLoaderValueCaching {
     
-    case enabled(modificationDate: Date? = nil)
+    case enabled
     case disabled
-    
-    public static var enabled: Self { .enabled(modificationDate: nil) }
-    
-    var isEnabled: Bool {
-        if case .enabled = self {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    var modificationDate: Date? {
-        if case .enabled(let modificationDate) = self {
-            return modificationDate
-        } else {
-            return nil
-        }
-    }
     
 }
 
@@ -57,24 +39,29 @@ extension AsyncLoader {
         }
     }
     
-    public func value(for id: ID, caching: AsyncLoaderValueCaching) async -> Value? {
+    public func value(for id: ID, caching: AsyncLoaderValueCaching = .enabled, modificationDate: Date? = nil) async -> Value? {
         
         let task: Task<Value?, Never>
                 
         if let state = values[id] {
             switch state {
-                case .loaded(let value):
-                    print("value from loaded...")
-                    return value
+                case .loaded(let value, let date):
+                    if let modificationDate, date < modificationDate {
+                        task = self.task(for: id)
+                        values[id] = .loading(task)
+                    } else {
+                        print("value from loaded...")
+                        return value
+                    }
                 case .loading(let taskInProgress):
                     task = taskInProgress
             }
         } else {
             
-            if caching.isEnabled {
-                if let cachedValue = await cachedValue(for: id, modificationDate: caching.modificationDate) {
+            if caching == .enabled {
+                if let cachedValue = await cachedValue(for: id, modificationDate: modificationDate) {
                     print("value from cache...")
-                    values[id] = .loaded(cachedValue)
+                    values[id] = .loaded(cachedValue, date: .now)
                     return cachedValue
                 }
             }
@@ -88,10 +75,10 @@ extension AsyncLoader {
         print("value from task...")
         
         if let value = value {
-            if caching.isEnabled {
+            if caching == .enabled {
                 cache(value, for: id)
             }
-            values[id] = .loaded(value)
+            values[id] = .loaded(value, date: .now)
         } else {
             values[id] = nil
         }
@@ -129,7 +116,7 @@ actor CharacterImageLoader: AsyncLoader {
         guard let caches = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else { return nil }
         
         let url = caches.appendingPathComponent("\(id).jpeg")
-        
+                
         if let modificationDate {
             
             guard let attributes = try? FileManager.default.attributesOfItem(atPath: url.path) as [FileAttributeKey: Any] else { return nil }
